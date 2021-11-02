@@ -5,7 +5,7 @@
 
 #------------example site---------------
 
-baseURL = "https://example.com"
+baseURL = "https://sandeshpokhrel54.github.io/sandesh-pokhrel.github.io/"
 title   = "Hey! It's Sandesh"
 languageCode = "en-us"
 theme = "hello-friend"

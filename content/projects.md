@@ -1,9 +1,10 @@
 +++
-title = "hmm..."
+title = "Projects"
 date = "2021-2-21"
+aliases = []
 [author]
   name = "Sandesh Pokhrel"
 +++
 
 
-## I'll figure sth out
+## Github link for now

@@ -1,15 +1,18 @@
-+++
-categories = ["Hugo"]
-date = "2021-11-01"
-description = ""
-featured = "pic01.jpg"
-featuredalt = ""
-featuredpath = "date"
-linktitle = ""
-title = "La Vie en Rose"
-slug = "La Vie en Rose"
-type = "post"
-+++
+---
+author:
+  name: "Sandesh Pokhrel"
+date: 2020-11-05
+linktitle: French Draft
+draft: "true"
+type:
+- post
+- posts
+title: La Vie En Rose
+weight: 10
+series:
+- Hugo 101
+---
+
 
 ## Juste pour le plaisir
 

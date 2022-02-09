@@ -55,14 +55,13 @@ disableHugoGeneratorInject = false
 
   # Metadata mostly used in document's head
   #
-  description = "Nice theme for homepages and blogs"
-  keywords = ""
-  images = [""]
+  # description = ""
+  # keywords = ""
+  # images = [""]
 
   # Home subtitle of the index page.
   #
   homeSubtitle = "Go Hard or Go Home"
-  #"Let's take a stroll, shall we?" "Don't just stand there come on in" 
 
   # Set a background for the homepage
   # backgroundImage = "assets/images/background.jpg"
@@ -73,7 +72,7 @@ disableHugoGeneratorInject = false
 
   # Set disableReadOtherPosts to true in order to hide the links to other posts.
   #
-  disableReadOtherPosts = false
+  disableReadOtherPosts = true
 
   # Enable theme toggle
   #
@@ -81,7 +80,7 @@ disableHugoGeneratorInject = false
   # Per default, this option is off.
   # The theme is respecting the prefers-color-scheme of the operating systeme.
   # With this option on, the page user is able to set the scheme he wants.
-  enableThemeToggle = false
+  enableThemeToggle = true
 
   # Sharing buttons
   #
@@ -155,7 +154,7 @@ disableHugoGeneratorInject = false
    [params.portrait]
      path     = "/img/me.png"
      alt      = "Portrait"
-     maxWidth = "200px"
+     maxWidth = "300px"
 
   # Social icons
   [[params.social]]
@@ -180,14 +179,17 @@ disableHugoGeneratorInject = false
 
 [languages]
   [languages.en]
-    subtitle  = "Hello there!"
+    subtitle  = "Namsate!"
     weight    = 1
     copyright = '<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>'
 
-  [languages.fr]
-    subtitle  = "Salute!"
-    weight    = 2
-    copyright = '<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>'
+  # [languages.fr]
+  #   subtitle  = "Salute!"
+  #   weight    = 2
+  #   copyright = '<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>'
+
+
+
 
 [menu]
   [[menu.main]]
@@ -201,7 +203,7 @@ disableHugoGeneratorInject = false
 
 
   [[menu.main]]
-    identifier = "psst"
-    name = "psst"
-    url = "psst/"
+    identifier = "Projects"
+    name = "Projects"
+    url = "projects/"
 

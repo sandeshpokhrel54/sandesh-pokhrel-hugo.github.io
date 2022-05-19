@@ -50,8 +50,8 @@ disableHugoGeneratorInject = false
 [params]
   dateform        = "Jan 2, 2006"
   dateformShort   = "Jan 2"
-  dateformNum     = "2006-01-02"
-  dateformNumTime = "2006-01-02 15:04"
+  dateformNum     = "2022-01-02"
+  dateformNumTime = "2022-01-02 15:04"
 
   # Metadata mostly used in document's head
   #
@@ -129,7 +129,7 @@ disableHugoGeneratorInject = false
 
   [params.logo]
     logoMark     = ">"
-    logoText     = "$ /home/"
+    logoText     = "$ ping sandesh"
     logoHomeLink = "/"
     # Set true to remove the logo cursor entirely.
     # logoCursorDisabled = false
@@ -177,8 +177,8 @@ disableHugoGeneratorInject = false
     #name = "stackoverflow"
     #url  = "https://www.stackoverflow.com/"
 
-[languages]
-  [languages.en]
+# [languages]
+  # [languages.en]
     subtitle  = "Namaste!"
     weight    = 1
     copyright = '<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>'

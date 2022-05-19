@@ -32,7 +32,7 @@ aliases = ["resume", "portfolio"]
 - Excellent **content writing/documentation** skills (English)
 - **Others:** LaTex, Git.
 
-#### Work Experince:
+#### Work Experience:
 - Worked as **Artificial Intelligence (Intern)** at **[Naamii](https://www.naamii.org.np/)** on projects like person vehicle detection and personal protection equipment detection. 
 
 #### Website Projects:
@@ -65,7 +65,7 @@ aliases = ["resume", "portfolio"]
     * Translate keywords/patterns to emoji across all URLs (eg, :heart: to ❤️)
     * Addon Link: https://addons.mozilla.org/en-US/firefox/addon/emoji-translator
 
-- **[Kight's Tour Problem](https://github.com/sandeshpokhrel54/knights-tour)**
+- **[Knight's Tour Problem](https://github.com/sandeshpokhrel54/knights-tour)**
     * Solution To Knight's tour problem and gameplay in Qt framework
 
 - **[Conway's Game of Life](https://github.com/sandeshpokhrel54/Game-of-life)**

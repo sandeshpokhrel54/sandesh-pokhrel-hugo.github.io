@@ -8,12 +8,5 @@ aliases = ["about-me","contact"]
 
 
 Computer Engineer in the making...  
-
 Games, Football, Books, Mathematics, Movies, Travel, Psychology...  
-Hit me up on my socials if you want to chat.
-
-<!---![Resume-here](/img/)--->
-
- 
-<!--- * https://github.com/alecthomas/chroma --->
 

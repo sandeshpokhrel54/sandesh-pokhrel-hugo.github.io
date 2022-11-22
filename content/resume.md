@@ -11,7 +11,7 @@ aliases = ["resume", "portfolio"]
 **Employment Status:** Student\
 **College:** Pulchowk Campus, IOE\
 **Undergraduate:** Bachelor in Computer Engineering (BCT)\
-**Year:** Fourth Year, Seventh Semester\
+**Year:** Fourth Year, Eighth Semester\
 **Address:**
 - Primary: Pokhara-17, Kaski 
 - Secondary: Pulchowk, Lalitpur (current)
@@ -35,11 +35,17 @@ aliases = ["resume", "portfolio"]
 #### Work Experience:
 - Worked as **Artificial Intelligence (Intern)** at **[Naamii](https://www.naamii.org.np/)** on projects like person vehicle detection and personal protection equipment detection. 
 
+- Research Coordinator at LOCUS(The National Technological Festival of Nepal).
+
 #### Website Projects:
 - https://sandesh-pokhrel.com.np/ - Hugo SSG; Portfolio Website
 
 
-#### Highlighted Projects:
+#### Highlighted Projects:  
+
+- **[Expected points](https://github.com/sandeshpokhrel54/Xpoints)**
+   - Calculating expected points of football teams using data from understat.com. 
+   - A plot of expected value of shots taken in a game.
 
 - **[Sajha-Aawaj](https://github.com/sandeshpokhrel54/sajha-aawaj)**
    - A portal for collecting and validating Nepali speech dataset

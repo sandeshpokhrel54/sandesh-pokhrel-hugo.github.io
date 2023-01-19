@@ -1,4 +1,84 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Sandesh Pokhrel</title><link>https://sandesh-pokhrel.com.np/posts/</link><description>Recent content in Posts on Sandesh Pokhrel</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0&lt;/a></copyright><lastBuildDate>Mon, 26 Sep 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://sandesh-pokhrel.com.np/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>A Hideous Loop</title><link>https://sandesh-pokhrel.com.np/posts/2022/09/a-hideous-loop/</link><pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate><guid>https://sandesh-pokhrel.com.np/posts/2022/09/a-hideous-loop/</guid><description>Exams.cpp int main(){
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Sandesh Pokhrel</title><link>https://sandesh-pokhrel.com.np/posts/</link><description>Recent content in Posts on Sandesh Pokhrel</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0&lt;/a></copyright><lastBuildDate>Thu, 05 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://sandesh-pokhrel.com.np/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>A mousey math</title><link>https://sandesh-pokhrel.com.np/posts/2023/01/a-mousey-math/</link><pubDate>Thu, 05 Jan 2023 00:00:00 +0000</pubDate><guid>https://sandesh-pokhrel.com.np/posts/2023/01/a-mousey-math/</guid><description>Where would I ever use it? Well isn’t it just what we say when a topic gets tough and you no longer want to continue reading that chapter. Laymen use this phrase to say why they don’t need the Pythagoras Theorem; it is alike for engineers too. Because you cannot see that topic in your conscionable future you feel your efforts worthless. However it’s not that that you would never need it but that you cannot see it in use or you using it that repels you from exploring further in that topic.</description><content type="html"><![CDATA[<h2 id="where-would-i-ever-use-it">Where would I ever use it?</h2>
+<p>Well isn’t it just what we say when a topic gets tough and you no longer want to continue reading that chapter. Laymen use this phrase to say why they don’t need the Pythagoras Theorem; it is alike for engineers too. Because you cannot see that topic in your conscionable future you feel your efforts worthless. However it’s not that that you would never need it but that you cannot see it in use or you using it that repels you from exploring further in that topic.</p>
+<p>One of such hard to grasp and find-yourself-excited-about topics for computer engineers is Digital Signal Processing. Even though they know it is extremely important they don’t see much use in their efforts at understanding the topic maybe because of the failure to see direct practical implications. Convolution and cross-correlation and what not.</p>
+<p>Let me tell you something fam, if you’ve used your mouse today you’ve used cross-correlation and we’re going to learn how.</p>
+<p>If your mouse is from the 90s and it has a rolling ball underneath, you are in a dire need for update. If it’s optical then you’re using cross-correlation once every 60 microsecond.</p>
+<p><em><strong><strong><strong><strong><strong><strong><strong><strong><strong>I wanna know, have you ever looked underneath your mouse?</strong></strong></strong></strong></strong></strong></strong></strong></strong></em></p>
+<h2 id="lets-dive-in">Let’s dive in.</h2>
+<p>An optical mouse uses a light-emitting diode (LED) to detect movement, as opposed to the traditional mechanical mouse that uses a rolling ball. It works by shining the LED or infrared(in latest models) onto the surface beneath the mouse to <em>detect changes</em> as the mouse is moved. The mouse then sends this information to the computer, which translates it into cursor movement on the screen.</p>
+<p>You see that little <em>detect changes</em> part, that’s where the fun happens. An optical mouse depending on its model takes pictures at the rate of 1000s of frames per second of a tiny area underneath the mouse. With that the mouse is able to capture 100s of frame even for the smallest movement of the mouse. The frames captured are not even stored by the mouse but only used to compute the distance the mouse moved in the split second.</p>
+<p>Now to extract the information of how much and in which direction the mouse moved, a chip inside the mouse (digital signal processing chip) computes the cross correlation between two images captured in succession.</p>
+<h3 id="what-even-is-cross-correlation">What even is cross correlation?</h3>
+<p>Cross correlation in signal processing is a measure of similarity between two functions which is also called <em><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>sliding inner-product or sliding dot product.</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></em> It is a popular method used in pattern recognition and searching for features in signals. In single dimension the formula for computing cross correlation between two functions looks something like this:</p>
+<p>$$
+IoF(n)= \sum_{i=-N}^{N}I(i)F(n+i)
+$$</p>
+<p>Because an image is just an array of 2-dimensional discrete signals we can apply the same formula with an additional parameter for dimensionality.</p>
+<p>$$
+IoF(x,y) = \sum_{j=-N}^{N}\sum_{i=-N}^{N}I(i,j)F(x+i,y+j)
+$$</p>
+<p>where I is the image, and F is the filter or template we are correlating with the image.</p>
+<p>This process of locating the identical features of one signal in another is known as <em>template matching,</em> extensively used in computer vision, pattern recognition and signal analysis.</p>
+<p>Enough math and terminology, let us see what I mean with an example.</p>
+<p><img src="/img/mouse/leoToast.jpg" alt="Custom Mousepad"></p>
+<p>Custom Mousepad</p>
+<p>For some reason, this is the custom mousepad your girlfriend chose as your birthday gift.</p>
+<p>You plug in your mouse, on the new mousepad and load <em>Valorant</em>. The following is the image the mouse sees placed on Leo’s eye as you start moving around looking for the enemy.  **</p>
+<p><em>The image I have here is a bit larger than what a typical mouse would capture(40x40).</em></p>
+<p><img src="/img/mouse/leoeye.png" alt="I in equation and eye in picture."></p>
+<p><em>I in equation and eye in picture.</em></p>
+<p>Say you moved your mouse aiming for that head and now the mouse sees this next image.</p>
+<p>You moved your mouse such that the eye which was in the middle of the first capture is now in the <em>top left half</em> of the image, the rest we are discarding for illustration purposes, bear in mind that this is microseconds apart.</p>
+<p><img src="/img/mouse/leoeye_temp.png" alt="F in the equation"></p>
+<p>F in the equation</p>
+<p>Now we need to find where exactly this second image coincides with the first. This is where we onload the math to do its work.</p>
+<p>Thankfully it is pretty simple to demonstrate in python with a few lines of code, however in an actual mouse these computations would be embedded into the system chip so that you can enjoy your game at a blazing fast speed with exceptional precision.</p>
+<p>The code is pretty straight forward and comments above the lines indicate what is actually happening.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#necessary imports</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.signal <span style="color:#f92672">import</span> correlate2d
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> PIL <span style="color:#f92672">import</span> Image
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#load images in grayscale</span>
+</span></span><span style="display:flex;"><span>img <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>open(<span style="color:#e6db74">&#39;leoeye.png&#39;</span>)<span style="color:#f92672">.</span>convert(<span style="color:#e6db74">&#39;L&#39;</span>)
+</span></span><span style="display:flex;"><span>img_moved <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>open(<span style="color:#e6db74">&#39;leoeye_temp.png&#39;</span>)<span style="color:#f92672">.</span>convert(<span style="color:#e6db74">&#39;L&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#load images into numpy array</span>
+</span></span><span style="display:flex;"><span>img_arr <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(img)
+</span></span><span style="display:flex;"><span>img_moved_arr <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(img_moved)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#normalizing the pixels in both images</span>
+</span></span><span style="display:flex;"><span>img_arr <span style="color:#f92672">=</span> img_arr <span style="color:#f92672">-</span> img_arr<span style="color:#f92672">.</span>mean()
+</span></span><span style="display:flex;"><span>img_moved_arr <span style="color:#f92672">=</span> img_moved_arr <span style="color:#f92672">-</span> img_moved_arr<span style="color:#f92672">.</span>mean()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#compute correlation between two images</span>
+</span></span><span style="display:flex;"><span>corr <span style="color:#f92672">=</span> correlate2d(img_arr, img_moved_arr) 
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#find the point of maximum correlation</span>
+</span></span><span style="display:flex;"><span>y, x <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>unravel_index(np<span style="color:#f92672">.</span>argmax(corr), corr<span style="color:#f92672">.</span>shape) 
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#offset for the starting coordinates of template image</span>
+</span></span><span style="display:flex;"><span>y <span style="color:#f92672">=</span> y <span style="color:#f92672">-</span> img_moved_arr<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>] 
+</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> x <span style="color:#f92672">-</span> img_moved_arr<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#lets see</span>
+</span></span><span style="display:flex;"><span>fig , (ax_original, ax_moved, ax_corr) <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">1</span>, figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">6</span>,<span style="color:#ae81ff">15</span>))
+</span></span><span style="display:flex;"><span>ax_original<span style="color:#f92672">.</span>imshow(img_arr, cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>)
+</span></span><span style="display:flex;"><span>ax_original<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;original&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ax_moved<span style="color:#f92672">.</span>imshow(img_moved_arr, cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>)
+</span></span><span style="display:flex;"><span>ax_moved<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;moved&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ax_corr<span style="color:#f92672">.</span>imshow(corr, cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>)
+</span></span><span style="display:flex;"><span>ax_corr<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;correlation&#39;</span>)
+</span></span><span style="display:flex;"><span>ax_original<span style="color:#f92672">.</span>plot(x,y,<span style="color:#e6db74">&#39;ro&#39;</span>)
+</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
+</span></span></code></pre></div><p><img src="/img/mouse/result.png" alt="Result"></p>
+<p>Now a few seconds wait (regrets not using cv2 library) and we get the answer that the image moved 77px to the right and 117px down, which in case of the mouse is its movement itself.</p>
+<p><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>The movements have been exaggerated for demonstration purposes but actual mouse movements tracked microseconds  apart wouldn’t be of such large margins. The mouse movements are however not updated on microseconds but in milliseconds by adding up these movements tracked in the millionth of seconds.</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
+<p>Most modern mouse use infrared images rather than plain photographic images. The undulating rough surface at the base of the mouse translating into pixel value intensities. You might have noticed your mouse acting weird which is the result of the mouse not being able to differentiate between the consecutive captures because of the smoothness of the surface.</p>
+<p>Finally you know whom to blame when you miss your mark next  time.</p>
+]]></content></item><item><title>A Hideous Loop</title><link>https://sandesh-pokhrel.com.np/posts/2022/09/a-hideous-loop/</link><pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate><guid>https://sandesh-pokhrel.com.np/posts/2022/09/a-hideous-loop/</guid><description>Exams.cpp int main(){
 while(!EngineeringOver){
 for (const auto&amp;amp; exam: semesters){
 /* A month-long ordeal that drains the life out of you, makes you and a thousand others monotonic to a mental cycle of three days.

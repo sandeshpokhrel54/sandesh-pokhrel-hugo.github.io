@@ -89,7 +89,7 @@ disableHugoGeneratorInject = false
   # and add them into your own `layouts/partials/sharing-buttons.html`
   #
   enableSharingButtons = true
-
+ 
   # Global language menu
   #
   # Enables the global language menu.
@@ -129,7 +129,7 @@ disableHugoGeneratorInject = false
 
   [params.logo]
     logoMark     = ">"
-    logoText     = "$ ping sandesh"
+    logoText     = "$ ping me"
     logoHomeLink = "/"
     # Set true to remove the logo cursor entirely.
     # logoCursorDisabled = false

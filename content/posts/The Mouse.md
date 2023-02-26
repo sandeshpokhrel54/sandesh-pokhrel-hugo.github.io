@@ -6,7 +6,7 @@ linktitle: crosscorrmouse
 type:
 - post
 - posts
-title: A mousey math
+title: A Mousey Math
 weight: 10
 series:
 - Hugo 101

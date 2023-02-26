@@ -7,5 +7,5 @@ aliases = ["about-me","contact"]
 +++
 
 
-Computer Engineer in the making so there's a lots of things going alongside.. Football, Video Games, Books, Mathematics, Movies, Trekking and Psychology.
+Computer Engineer in the making so there's a lots of things going alongside. Check out posts for my excerpts of life. 
 

@@ -94,11 +94,9 @@ aliases = ["resume", "portfolio"]
 
 ---
 #### Life Outside Programming:
-- Audiophile, Bibliophile, Philomath
 - Passionately enjoy football
 - Motivated at reading fiction(A song of Ice and Fire, Witcher), non-fiction and psychology
 - Enjoy playing video games
 - Trekking
 - Writing Blogs
-
 ---

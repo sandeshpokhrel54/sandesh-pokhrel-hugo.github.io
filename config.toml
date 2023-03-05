@@ -57,7 +57,7 @@ disableHugoGeneratorInject = false
   #
   # description = ""
   # keywords = ""
-  # images = [""]
+  # images = [""] 
 
   # Home subtitle of the index page.
   #

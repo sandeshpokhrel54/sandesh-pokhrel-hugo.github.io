@@ -36,15 +36,12 @@ Now to extract the information of how much and in which direction the mouse move
 
 Cross correlation in signal processing is a measure of similarity between two functions which is also called ***************************sliding inner-product or sliding dot product.*************************** It is a popular method used in pattern recognition and searching for features in signals. In single dimension the formula for computing cross correlation between two functions looks something like this: 
 
-$$
-IoF(n)= \sum_{i=-N}^{N}I(i)F(n+i)
-$$
-
+<!-- $$ IoF(n)= \sum_{i=-N}^{N}I(i)F(n+i) $$ -->
+![()](/img/eq1.png)
 Because an image is just an array of 2-dimensional discrete signals we can apply the same formula with an additional parameter for dimensionality.
 
-$$
-IoF(x,y) = \sum_{j=-N}^{N}\sum_{i=-N}^{N}I(i,j)F(x+i,y+j)
-$$
+<!-- $$ IoF(x,y) = \sum_{j=-N}^{N}\sum_{i=-N}^{N}I(i,j)F(x+i,y+j) $$ -->
+![()](/img/eq2.png)
 
 where I is the image, and F is the filter or template we are correlating with the image.
 

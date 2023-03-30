@@ -1,14 +1,15 @@
+#--------------------------HF-----------------------------
 baseURL = "https://sandesh-pokhrel.com.np"
 title   = "Sandesh Pokhrel"
 languageCode = "en-us"
-theme = "hello-friend-2"
+theme = "hello-friend-ng"
 
 PygmentsCodeFences = true
 PygmentsStyle = "monokai"
 
 paginate  = 10
 rssLimit  = 10  # Maximum number of items in the RSS feed.
-copyright = "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License." # This message is only used by the RSS template.
+# copyright = "This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License." # This message is only used by the RSS template.
 
 # googleAnalytics = ""
 # disqusShortname = ""
@@ -24,7 +25,7 @@ buildFuture  = false
 buildExpired = false
 canonifyURLs = true
 
-enableRobotsTXT = true
+enableRobotsTXT = false
 enableGitInfo   = false
 enableEmoji     = true
 enableMissingTranslationPlaceholders = false
@@ -110,15 +111,13 @@ disableHugoGeneratorInject = false
   # If you want, you can easily override the default footer with your own content.
   #
   [params.footer]
-    trademark = true
+    trademark = false
     # rss = true
-    copyright = true
-    author = true
-
-    topText = [""]
-    bottomText = [
-      "See you around",
-    ]
+    copyright = false
+    author = false
+    # Recent = true
+    # topText = ["Recent Posts"]
+    # bottomText = []
 
   # Colors for favicons
   #
@@ -129,7 +128,7 @@ disableHugoGeneratorInject = false
 
   [params.logo]
     logoMark     = ">"
-    logoText     = "$ ping me"
+    logoText     = "$ ping sandesh"
     logoHomeLink = "/"
     # Set true to remove the logo cursor entirely.
     # logoCursorDisabled = false
@@ -181,18 +180,16 @@ disableHugoGeneratorInject = false
     #name = "stackoverflow"
     #url  = "https://www.stackoverflow.com/"
 
-[languages]
-  [languages.en]
-    subtitle  = "Namaste!"
-    weight    = 1
-    copyright = '<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>'
+# [languages]
+#   [languages.en]
+#     subtitle  = "Namaste!"
+#     weight    = 1
+    # copyright = '<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>'
 
   # [languages.fr]
   #   subtitle  = "Salute!"
   #   weight    = 2
   #   copyright = '<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>'
-
-
 
 
 [menu]
@@ -211,7 +208,7 @@ disableHugoGeneratorInject = false
   #   name = "Projects"
   #   url = "projects/"
 
-  [[menu.main]]
-    identifier = "Resume"
-    name = "Resume"
-    url = "resume/"
+  # [[menu.main]]
+  #   identifier = "Resume"
+  #   name = "Resume"
+  #   url = "resume/"

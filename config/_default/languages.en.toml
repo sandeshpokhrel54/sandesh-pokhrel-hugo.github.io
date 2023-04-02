@@ -1,0 +1,26 @@
+languageCode = "en-us"
+languageName = "English"
+# displayName = ":flag-au:"
+# isoCode = "en-AU"
+weight = 1
+rtl = false
+
+title = "Sandesh Pokhrel"
+description = "A place where I lay down my burdens."
+copyright = "&copy; 2023 Congo contributors"
+
+dateFormat = "2 January 2006"
+
+[params]
+  mainSections = ["blogs"]
+
+[author]
+  name = "Sandesh Pokhrel"
+  image = "img/mee.jpg"
+  headline = "Probably playing football somewhere"
+  bio = "Maybe someday"
+  links = [
+    { twitter = "https://twitter.com/dovahkiin_08" },
+    { linkedin = "https://www.linkedin.com/in/sandesh-p-93955b1b9/" },
+    { github = "https://github.com/sandeshpokhrel54/" },
+  ]

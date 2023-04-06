@@ -1,1 +1,3 @@
 User-agent: *
+Allow: /
+Sitemap: https://sandesh-pokhrel.com.np/sitemap.xml

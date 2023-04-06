@@ -1,267 +1,23 @@
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Sandesh Pokhrel</title><link>https://sandesh-pokhrel.com.np/posts/</link><description>Recent content in Posts on Sandesh Pokhrel</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><copyright>&lt;a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0&lt;/a></copyright><lastBuildDate>Thu, 05 Jan 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://sandesh-pokhrel.com.np/posts/index.xml" rel="self" type="application/rss+xml"/><item><title>A Mousey Math</title><link>https://sandesh-pokhrel.com.np/posts/2023/01/a-mousey-math/</link><pubDate>Thu, 05 Jan 2023 00:00:00 +0000</pubDate><guid>https://sandesh-pokhrel.com.np/posts/2023/01/a-mousey-math/</guid><description>Where would I ever use it? Well isn’t it just what we say when a topic gets tough and you no longer want to continue reading that chapter. Laymen use this phrase to say why they don’t need the Pythagoras Theorem; it is alike for engineers too. Because you cannot see that topic in your conscionable future you feel your efforts worthless. However it’s not that that you would never need it but that you cannot see it in use or you using it that repels you from exploring further in that topic.</description><content type="html"><![CDATA[<h2 id="where-would-i-ever-use-it">Where would I ever use it?</h2>
-<p>Well isn’t it just what we say when a topic gets tough and you no longer want to continue reading that chapter. Laymen use this phrase to say why they don’t need the Pythagoras Theorem; it is alike for engineers too. Because you cannot see that topic in your conscionable future you feel your efforts worthless. However it’s not that that you would never need it but that you cannot see it in use or you using it that repels you from exploring further in that topic.</p>
-<p>One of such hard to grasp and find-yourself-excited-about topics for computer engineers is Digital Signal Processing. Even though they know it is extremely important they don’t see much use in their efforts at understanding the topic maybe because of the failure to see direct practical implications. Convolution and cross-correlation and what not.</p>
-<p>Let me tell you something fam, if you’ve used your mouse today you’ve used cross-correlation and we’re going to learn how.</p>
-<p>If your mouse is from the 90s and it has a rolling ball underneath, you are in a dire need for update. If it’s optical then you’re using cross-correlation once every 60 microsecond.</p>
-<p><em><strong><strong><strong><strong><strong><strong><strong><strong><strong>I wanna know, have you ever looked underneath your mouse?</strong></strong></strong></strong></strong></strong></strong></strong></strong></em></p>
-<h2 id="lets-dive-in">Let’s dive in.</h2>
-<p>An optical mouse uses a light-emitting diode (LED) to detect movement, as opposed to the traditional mechanical mouse that uses a rolling ball. It works by shining the LED or infrared(in latest models) onto the surface beneath the mouse to <em>detect changes</em> as the mouse is moved. The mouse then sends this information to the computer, which translates it into cursor movement on the screen.</p>
-<p>You see that little <em>detect changes</em> part, that’s where the fun happens. An optical mouse depending on its model takes pictures at the rate of 1000s of frames per second of a tiny area underneath the mouse. With that the mouse is able to capture 100s of frame even for the smallest movement of the mouse. The frames captured are not even stored by the mouse but only used to compute the distance the mouse moved in the split second.</p>
-<p>Now to extract the information of how much and in which direction the mouse moved, a chip inside the mouse (digital signal processing chip) computes the cross correlation between two images captured in succession.</p>
-<h3 id="what-even-is-cross-correlation">What even is cross correlation?</h3>
-<p>Cross correlation in signal processing is a measure of similarity between two functions which is also called <em><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>sliding inner-product or sliding dot product.</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></em> It is a popular method used in pattern recognition and searching for features in signals. In single dimension the formula for computing cross correlation between two functions looks something like this:</p>
-<p>$$
-IoF(n)= \sum_{i=-N}^{N}I(i)F(n+i)
-$$</p>
-<p>Because an image is just an array of 2-dimensional discrete signals we can apply the same formula with an additional parameter for dimensionality.</p>
-<p>$$
-IoF(x,y) = \sum_{j=-N}^{N}\sum_{i=-N}^{N}I(i,j)F(x+i,y+j)
-$$</p>
-<p>where I is the image, and F is the filter or template we are correlating with the image.</p>
-<p>This process of locating the identical features of one signal in another is known as <em>template matching,</em> extensively used in computer vision, pattern recognition and signal analysis.</p>
-<p>Enough math and terminology, let us see what I mean with an example.</p>
-<p><img src="/img/mouse/leoToast.jpg" alt="Custom Mousepad"></p>
-<p>Custom Mousepad</p>
-<p>For some reason, this is the custom mousepad your girlfriend chose as your birthday gift.</p>
-<p>You plug in your mouse, on the new mousepad and load <em>Valorant</em>. The following is the image the mouse sees placed on Leo’s eye as you start moving around looking for the enemy.  **</p>
-<p><em>The image I have here is a bit larger than what a typical mouse would capture(40x40).</em></p>
-<p><img src="/img/mouse/leoeye.png" alt="I in equation and eye in picture."></p>
-<p><em>I in equation and eye in picture.</em></p>
-<p>Say you moved your mouse aiming for that head and now the mouse sees this next image.</p>
-<p>You moved your mouse such that the eye which was in the middle of the first capture is now in the <em>top left half</em> of the image, the rest we are discarding for illustration purposes, bear in mind that this is microseconds apart.</p>
-<p><img src="/img/mouse/leoeye_temp.png" alt="F in the equation"></p>
-<p>F in the equation</p>
-<p>Now we need to find where exactly this second image coincides with the first. This is where we onload the math to do its work.</p>
-<p>Thankfully it is pretty simple to demonstrate in python with a few lines of code, however in an actual mouse these computations would be embedded into the system chip so that you can enjoy your game at a blazing fast speed with exceptional precision.</p>
-<p>The code is pretty straight forward and comments above the lines indicate what is actually happening.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#necessary imports</span>
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> scipy.signal <span style="color:#f92672">import</span> correlate2d
-</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> PIL <span style="color:#f92672">import</span> Image
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> numpy <span style="color:#66d9ef">as</span> np
-</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> matplotlib.pyplot <span style="color:#66d9ef">as</span> plt
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#load images in grayscale</span>
-</span></span><span style="display:flex;"><span>img <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>open(<span style="color:#e6db74">&#39;leoeye.png&#39;</span>)<span style="color:#f92672">.</span>convert(<span style="color:#e6db74">&#39;L&#39;</span>)
-</span></span><span style="display:flex;"><span>img_moved <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>open(<span style="color:#e6db74">&#39;leoeye_temp.png&#39;</span>)<span style="color:#f92672">.</span>convert(<span style="color:#e6db74">&#39;L&#39;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#load images into numpy array</span>
-</span></span><span style="display:flex;"><span>img_arr <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(img)
-</span></span><span style="display:flex;"><span>img_moved_arr <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>array(img_moved)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#normalizing the pixels in both images</span>
-</span></span><span style="display:flex;"><span>img_arr <span style="color:#f92672">=</span> img_arr <span style="color:#f92672">-</span> img_arr<span style="color:#f92672">.</span>mean()
-</span></span><span style="display:flex;"><span>img_moved_arr <span style="color:#f92672">=</span> img_moved_arr <span style="color:#f92672">-</span> img_moved_arr<span style="color:#f92672">.</span>mean()
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#compute correlation between two images</span>
-</span></span><span style="display:flex;"><span>corr <span style="color:#f92672">=</span> correlate2d(img_arr, img_moved_arr) 
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#find the point of maximum correlation</span>
-</span></span><span style="display:flex;"><span>y, x <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>unravel_index(np<span style="color:#f92672">.</span>argmax(corr), corr<span style="color:#f92672">.</span>shape) 
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#offset for the starting coordinates of template image</span>
-</span></span><span style="display:flex;"><span>y <span style="color:#f92672">=</span> y <span style="color:#f92672">-</span> img_moved_arr<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>] 
-</span></span><span style="display:flex;"><span>x <span style="color:#f92672">=</span> x <span style="color:#f92672">-</span> img_moved_arr<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>]
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#75715e">#lets see</span>
-</span></span><span style="display:flex;"><span>fig , (ax_original, ax_moved, ax_corr) <span style="color:#f92672">=</span> plt<span style="color:#f92672">.</span>subplots(<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">1</span>, figsize<span style="color:#f92672">=</span>(<span style="color:#ae81ff">6</span>,<span style="color:#ae81ff">15</span>))
-</span></span><span style="display:flex;"><span>ax_original<span style="color:#f92672">.</span>imshow(img_arr, cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>)
-</span></span><span style="display:flex;"><span>ax_original<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;original&#39;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>ax_moved<span style="color:#f92672">.</span>imshow(img_moved_arr, cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>)
-</span></span><span style="display:flex;"><span>ax_moved<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;moved&#39;</span>)
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>ax_corr<span style="color:#f92672">.</span>imshow(corr, cmap<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;gray&#39;</span>)
-</span></span><span style="display:flex;"><span>ax_corr<span style="color:#f92672">.</span>set_title(<span style="color:#e6db74">&#39;correlation&#39;</span>)
-</span></span><span style="display:flex;"><span>ax_original<span style="color:#f92672">.</span>plot(x,y,<span style="color:#e6db74">&#39;ro&#39;</span>)
-</span></span><span style="display:flex;"><span>plt<span style="color:#f92672">.</span>show()
-</span></span></code></pre></div><p><img src="/img/mouse/result.png" alt="Result"></p>
-<p>Now a few seconds wait (regrets not using cv2 library) and we get the answer that the image moved 77px to the right and 117px down, which in case of the mouse is its movement itself.</p>
-<p><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>The movements have been exaggerated for demonstration purposes but actual mouse movements tracked microseconds  apart wouldn’t be of such large margins. The mouse movements are however not updated on microseconds but in milliseconds by adding up these movements tracked in the millionth of seconds.</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></p>
-<p>Most modern mouse use infrared images rather than plain photographic images. The undulating rough surface at the base of the mouse translating into pixel value intensities. You might have noticed your mouse acting weird which is the result of the mouse not being able to differentiate between the consecutive captures because of the smoothness of the surface.</p>
-<p>Finally you know whom to blame when you miss your mark next  time.</p>
-]]></content></item><item><title>Children in Technology</title><link>https://sandesh-pokhrel.com.np/posts/2022/12/children-in-technology/</link><pubDate>Tue, 27 Dec 2022 00:00:00 +0000</pubDate><guid>https://sandesh-pokhrel.com.np/posts/2022/12/children-in-technology/</guid><description>CIT - Manang The children of Manang learn to scribble shapes in the snow before they learn their first alphabet. Their tin-roofed school lies at the bottom of a mountain behemoth, with only the mid-day sun offering enough warmth for them to play outside. The rest of the day they remain sheltered inside the classrooms insulated with wood, but even that isn’t enough during harsh winters when the snow is sometimes knee-deep and the schools remain closed for months.</description><content type="html"><![CDATA[<h1 id="cit---manang">CIT - Manang</h1>
-<p>The children of Manang learn to scribble shapes in the snow before they learn their first alphabet. Their tin-roofed school lies at the bottom of a mountain behemoth, with only the mid-day sun offering enough warmth for them to play outside. The rest of the day they remain sheltered inside the classrooms insulated with wood, but even that isn’t enough during harsh winters when the snow is sometimes knee-deep and the schools remain closed for months. We were mere visitors but to these children born and raised in snow, this was their home, their heaven, and the source of their originality and pride.</p>
-<p><img src="/img/Annapurna.jpg" alt="(Annapurna Secondary School)"></p>
-<h2 id="timang">Timang</h2>
-<p>Cliched as it may sound, it’s the journey that matters and not the destination. This rings even truer when you are a group of 12 cramped in a 7-seater Bolero, with one of the guys practically in the driver&rsquo;s seat and barely wiggling about to allow the driver to handle the gear. Add to the fact that the road from Besisahar (Lamjung) towards Manang is probably the bumpiest you’ve seen all your life and the winds are already freezing cold at 4 PM, and you have one unique ride to savor for your aching back.</p>
-<blockquote>
-<p>“You went through pitch-black tunnels (which were actually pretty good compared to the other parts), under waterfalls, through rivulets, and at some places, it was akin to a vehicle getting up the stairs.”</p>
-</blockquote>
-<ul>
-<li><em>An ‘oversimplified’ description of the Manang road</em></li>
-</ul>
-<p>We had just arrived at Timang at 8 PM only to be welcomed by the ‘trust the internet before you trust your phone reception’ experience - moving 10 steps in any arbitrary direction meant signal loss but the Wi-Fi signal was a clear, full bar. Puzzling. We squiggled inside our blankets and huddled together in a futile attempt to stay warm.</p>
-<p>In the morning, the class rep stood before the paintings of the national animal, national flower, and national color on the walls as she gathered everyone and provided instructions on cleaning duties. Some ran to the football ground to collect litter while some visited classrooms, wiping every speck of dust. Since government schools cannot afford a lot of staff, the cleanliness duty falls upon the students - a great way to incorporate discipline and a sense of responsibility from a young age.</p>
-<p>Children from classes 6 to 10 could barely fill half the music room, yet we could feel that this was the most gracious crowd we had since the start of the campaign. We were pleasantly surprised to learn that the children in Manang had good internet access and they were even able to answer most of our internet quiz questions. Their understanding of internet safety including topics like online sexual abuse, grooming, phishing, hacking, and other issues was a bit lacking, but that’s what we were there for, and we explained them in the most Layman terms we could.</p>
-<blockquote>
-<p>“Once the winter arrives, we can’t open the schools for teaching so the students must descend to the hills to get their winter studies in or resort to staying indoors. We are thinking of sending two of our students to the Budhanilkantha School in Kathmandu, although we have heard the entrance exams are quite tough…”,</p>
-</blockquote>
-<p><em>- Principal of Shree Gaurishankar Aadharbhut Bidhyalaya, Timang</em></p>
-<p>The English teacher instructed the 5 students gathered around him on the football ground to recite the story in turns. This mini-class could only go for about a month before the school shut its doors to the falling of snow. We glanced longingly and reminisced about our childhood until the afternoon sun signaled the motion toward our next destination.</p>
-<h2 id="chame">Chame</h2>
-<p>It was at Chame that we finally met our lord and savior Mr. Santosh Dai. A phone call from him could have saved the Titanic - from contacting the local schools to arranging rides and hotel inns, Santosh Dai was the reason why we could endeavor CIT in Manang all in one fell swoop. Dear Santosh Dai, if you ever find a copy of The Zerone lying around as you sip your favorite tea, know that you have our sincere gratitude.</p>
-<p>The Lokpriya School in Chame seemed precariously close to the flowing river. There were stone cut marks of the flood that had almost drowned (and certainly closed) the school the previous year. The riverside breeze couldn’t get any colder as we firmly gritted our teeth and made our way to the classrooms.</p>
-<p>Teaching is a perplexing skill. Here we were, teaching how to code a GCD calculator to children who probably hadn’t written a ‘Hello, World’ program in their life, and the very next thing we were teaching about safe internet usage. Sometimes, it required establishing relativity by mentioning PUBG and Free Fire as marvels of game development. Other times we had to spend 5 minutes explaining why ‘Alan Turing is called the father of AI’, only to end up right where we started with the children scratching their heads in one synchronous motion. One of us had to run to the market to fetch the pens for the internet quiz - when asked for the bill, he was simply handed a white, torn piece of paper with ‘पेन - 100’ written in the most illegible handwriting on it. Our finance coordinator was not going to have an easy time explaining this.</p>
-<p>With the taste of warm <em>jerry puri</em> still lingering on our lips, we boarded the jeep to Tanki Manang. Half of our crew got to ride outside in the back of the vehicle as the ever-changing landscapes ran past us. Barren hills crowned by snow-covered peaks, apple orchards growing around ponds and puddles, dry autumn leaves swirling around, and waves of emotions crashing in our hearts. One can only hold their breath for so long.</p>
-<h2 id="tanki-manang">Tanki Manang</h2>
-<p>Annapurna School was a field day for our hardware instructor. The batteries gave out due to the cold and the induction coil stopped working for some unknown reason, but the children were having the time of their lives spinning the makeshift dynamo as fast as they could. We could imagine the questions inside their head as they moved their hands closer and farther toward the ultrasonic sensor to make the LED blink.</p>
-<p>Oh, what joy can simple things bring in life!</p>
-<blockquote>
-<p>“Who wants to see us flying a drone?”
-“What? Drone? We have seen that hundreds of times…”</p>
-</blockquote>
-<p>Guess drones aren’t ‘simple’ enough.</p>
-<blockquote>
-<p>“Since you are the only student in your class, we don’t even need to do a lucky draw for your LOCUS t-shirt. Come claim it!”</p>
-</blockquote>
-<p>The privilege of being the only student in an entire class. The girl gave an amused laugh as she collected her prize and went back to her corner. Class 9 had one student, class 8 had around 7, and class 10 had 5. A handful bunch, nonetheless.</p>
-<p>The afternoon sun was merciful but when the cold wind struck us after midday we had to push down hard on our jacket pockets. That didn’t matter to the kids though as they ran out to the basketball court whenever we paused for a 10 minutes break. A boy with only one hand was chucking in free throws with ease. A girl proclaimed herself as the best photographer in school and scolded us to get our poses right.</p>
-<p>The sky was a clear blue, the gurgling, premature Marsyangdi added ambiance to the air, and the Gangapurna mountain dawned upon us within touching distance. Despite the harsh weather and rural living standards, the simplicity of life gleams through the smiles of the happy children in the playgrounds of Manang.</p>
-<h2 id="epilogue">Epilogue</h2>
-<p>The stuff that happens behind the curtain never does make it onto the stage, but one can always take a sneak peek. You will not get to read the story of the quiet prayers and the bargains we made with God as the altitude got higher and the snow got colder. You’ll definitely not hear about us losing our minds over the projector we ‘misplaced’ during our stay at Tanki Manang. The look of horror on our faces as the tap water froze during early morning toilet ‘rituals’. Chowing down on yak cheese pizza at over 4000m as if it was the last meal of our lives.</p>
-<p>Dragging our feet along the mountain trail at 3 AM on an empty stomach. Hauling the massive beast of a laptop all the way through the Thorang La pass.</p>
-<p>Getting battered and bamboozled by snowstorms. Remembering your loved ones and wishing they could have been here to witness mother nature in all her glory.</p>
-<p>Asphyxiation. Vindication. Exclamation.</p>
-<h2 id="diaries-of-other-provinces">Diaries of other provinces</h2>
-<p><em>The LOCUS 2023 Children in Technology (CIT) program was conducted alongside the Internet Education Program (IEP) supported by ChildSafeNet and WorldLink Communications. As a part of CIT, we introduced children to technologies such as electromagnetics, transformers, programming, motors, house wiring, and more, while through the IEP, in parallel, we taught the children secure use of the internet and tackled challenging topics of online addiction, abuse, bullying, scams and more. The program was conducted in 6 provinces and over 50 schools. Here are some excerpts from some other teams from LOCUS.</em></p>
-<p>“Maybe because the students were in early teens, we observed open responsiveness when discussing on topics such as sexual abuse and exploitation…During a quiz, one student immediately provided the correct answer for the helpline number 1098. To our surprise, she informed us that she had actively volunteered at the district&rsquo;s helpline station.”</p>
-<p><em>- Shree Himalaya Madhyamik Vidyalaya, Province 1, Team Khadbari</em></p>
-<p>“The program went smoothly, despite the presence of uninterested and noisy students…One incident that stood out to us was when as a reward for winning a quiz, a girl chose to take a pen instead of the other attractive prize available. We gave it to her, and that was all she wanted.”</p>
-<p><em>- Nepal Rastriya Madhyamik Bidhayala, Province 2, Team Madhesh Pradesh</em></p>
-<p>“There were no conventional means of transportation so we had to walk for nearly 4 hours, asking for directions to the school…Just so it happened, there was a blackout due to a nearby faulty transformer. We could not use a projector, so instead relied on our laptops and verbal prowess for presentations.”</p>
-<ul>
-<li><em>Kalika Secondary School, Team Gandaki, Bandipur and Ghandruk</em></li>
-</ul>
-<p>“Students there had good exposure to social media but not enough knowledge of its safe use…One of the students shared his experience of losing his FreeFire account when he clicked a link that he believed would give him in-game currency for free while some shared their experiences of receiving scam messages on WhatsApp.”</p>
-<p><em>- Bhimnagar Secondary School, Team Bagmati Province</em></p>
-<p>“The school was entirely free and well-equipped with sophisticated technology, making it easy for us to conduct the campaign. They had their own projectors, speakers, cameras, and internet facilities which greatly aided us in delivering our content. The students were also very disciplined and eager to learn.”</p>
-<p><em>- Kopila Valley Academy, Team Surkhet, Province 6</em></p>
-<p>“One of the students shared the addictive experience of gaming and his horror when he faced the consequences of bare minimum marks in exams. The event became suddenly interesting when one of the students sang in front of all the students&hellip;The earthquake of 6.1 mags with epicenter ar Doti occurred that night. We spent 2 hours outside that cold night with the company of firewood and locals.”</p>
-<ul>
-<li><em>Ghatal Ma. Bi, Team Dadeldhura, Far-West Province</em></li>
-</ul>
-]]></content></item><item><title>A Hideous Loop</title><link>https://sandesh-pokhrel.com.np/posts/2022/09/a-hideous-loop/</link><pubDate>Mon, 26 Sep 2022 00:00:00 +0000</pubDate><guid>https://sandesh-pokhrel.com.np/posts/2022/09/a-hideous-loop/</guid><description>Exams.cpp int main(){
-while(!EngineeringOver){
-for (const auto&amp;amp; exam: semesters){
-/* A month-long ordeal that drains the life out of you, makes you and a thousand others monotonic to a mental cycle of three days.
-It’s fun and games before the iconic three days begin. Well not exactly fun and games because we are primed for this hammer-blow of a month with project deadlines, assessments and presentations but its trivial compared to the rollercoaster we ride during the exam but the real game begins on T-3 days to exam.</description><content type="html"><![CDATA[<h1 id="examscpp">Exams.cpp</h1>
-<p><em>int main(){</em></p>
-<p><em>while(!EngineeringOver){</em></p>
-<p><em>for (const auto&amp; exam: semesters){</em></p>
-<p>/* A month-long ordeal that drains the life out of you, makes you and a thousand others monotonic to a mental cycle of three days.</p>
-<p>It’s fun and games before the iconic three days begin. Well not exactly fun and games because we are primed for this hammer-blow of a month with project deadlines, assessments and presentations but its trivial compared to the rollercoaster we ride during the exam but the real game begins on T-3 days to exam.</p>
-<p><em>In bed looking at the ceiling trying to remember some formula and the formula contorts itself into a monster trying to eat you alive, and awake again. A short snooze story.</em></p>
-<p>You unlock your phone and start looking through the syllabus. Each page of the syllabus you scroll, you see new words and terminology never seen all semester. Dread finally pulls you out of your bed and onto study.</p>
-<p>Lunch time and asking everyone how much of the syllabus have they covered is the greeting for the day. Some have already covered half, some just started like me and others who will start tomorrow.</p>
-<p>The grinding continues, understand where you can , rote where you cannot but sweep away everything that there is to read in the book. Word by word, line by line and paragraph by paragraph until you gather enough confidence that you’ll solve any question they put in front of you. All day long grinding at the same book.</p>
-<p><em>Kicks the door, Batista bombs the pillow and back to the chair.</em></p>
-<p>You find yourself searching the internet for understandable explanation of some of the topics. You cannot find the solution but discover yet another interesting site that you’ll probably never visit again. Back where I was then, turning on that grinder.</p>
-<p><em>The circuits, the mathematics, the waves and the code.</em></p>
-<p>A bit of football and calisthenics every evening helps you break the ‘sit and stare’ cycle.  It ensures a full body stretch, mental and physical. After a long and tiring day, it’s bedtime and you’ve just managed to barely scratch the surface.</p>
-<p><em>Syllabus progression at 5%. Recharging…</em></p>
-<p>The next morning starts, more proactive and alerted. Yesterday&rsquo;s snail-pace reading is taking us nowhere, today we have to start jogging. To add a little productivity, the background music changes to long hours of classical music. <em>A play, read, pause cycle.</em> Chopping the pages left, right and center, soaking it all up like a sponge.</p>
-<p>The frequency with which you experience Deja Vu increases, experts say(I didn’t talk to one but articles online suggest so) it’s because of increased stress. Confirmation bias has me look no further but I might have a superpower to re-experience the past when I’m stressed, we’ll never know.</p>
-<p>The backdrop on my curtains turn from golden to blue to golden again all the while I’m at my desk working on the Fast Fourier Transform of a signal with a  butterfly diagram. A good amount of exam pressure has dulled some of my senses and all I see are problems.</p>
-<p><em>Syllabus progression at 60%. One day left.</em></p>
-<p>The sprint starts on the final day.</p>
-<p>By hook or crook you manage to convince yourself that you have covered all there is. Some noisy neighbors start discussing equations that you never saw mentioned in your reference. Damn them, and their references for bringing in more confusion at this late hour. However, by the end of the day it doesn’t matter if you have finished the contents or not you’re saturated. Nothing is going in now.</p>
-<p><em>Stack Overflow! Progression untracked after 90%.</em></p>
-<p>You have no recollection of whatever you’ve read these past days. Without a good session of revision, it&rsquo;s as good as having read nothing. The loot you filled your sack with now needs to be reorganized or else the search time for the answer inside the great cauldron of your head exceeds the measly three hours. A bit like hashing the most important concepts.</p>
-<p>*Question life decisions and contemplate on the road not taken before going to the exam. I know, I know it wouldn’t have been any easier but the road not taken always seems easier. What could have been! <em>/</em></p>
-<p><em>}</em></p>
-<p>/* <em>How on earth does this circuit work? - First Year</em></p>
-<p><em>Oh, so this is how you draw the circuit. - Second Year</em></p>
-<p><em>That’s a circuit? - Third Year</em></p>
-<p><em>There’s a circuit? - Fourth Year</em></p>
-<p>I wonder if in search of excellent grades, we have failed to become good learners. Cram and spam tactics work good on paper but rarely are of any use in practical life. The end of an exam signals another list of interests being left unchecked, another list of project works abandoned and another list of dull knowledge added. Eight battles trying to not be broken, but rarely do people make out without scratches. You collect any pieces of your broken self and try to glue them as they were before the month, but a lot is just lost never to be assembled quite as before.*/</p>
-<p><em>}</em></p>
-<p><em>In the end, it doesn’t even matter.</em></p>
-<p><em>return 0</em></p>
-<p><em>}</em></p>
-]]></content></item><item><title>Langtang Valley Trek</title><link>https://sandesh-pokhrel.com.np/posts/2022/06/langtang-valley-trek/</link><pubDate>Fri, 10 Jun 2022 00:00:00 +0000</pubDate><guid>https://sandesh-pokhrel.com.np/posts/2022/06/langtang-valley-trek/</guid><description>Langtang Valley “The name Langtang comes from the Tibetan language, where &amp;lsquo;Lang&amp;rsquo; Yak and &amp;lsquo;Teng&amp;rsquo; mean – to follow.”
-Prologue The pandemic had struck hard at everyone, even the most introverted of us were eager to travel and explore. The burning fire of youth in us could only be quenched by a trek that demanded every last bit of effort from us.
-In the back of my mind was the thought of having missed Langtang Trek, a few months ago due to the uncertainty of having practical classes in the middle of the vacation.</description><content type="html"><![CDATA[<h2 id="langtang-valley">Langtang Valley</h2>
-<p><em>“The name Langtang comes from the Tibetan language, where &lsquo;Lang&rsquo; Yak and &lsquo;Teng&rsquo; mean – to follow.”</em></p>
-<h2 id="prologue">Prologue</h2>
-<p>The pandemic had struck hard at everyone, even the most introverted of us were eager to travel and explore. The burning fire of youth in us could only be quenched by a trek that demanded every last bit of effort from us.</p>
-<p>In the back of my mind was the thought of having missed Langtang Trek, a few months ago due to the uncertainty of having practical classes in the middle of the vacation. So it was one of the first places I suggested and everyone went along without second thought.</p>
-<p>With the destination decided, it was time to recruit. About seven of us were already on for it within a couple of days. Permissions and circumstances fluctuated the number often, but when it all settled, the company was just enough to field a football team.</p>
-<h2 id="the-start">The Start</h2>
-<p><em>T- 20 hours:</em> The bikers among us went to Machha Pokhari to get tickets to Syaphru Besi. We took the ticket for 6:20 in the morning but the announced time was 5:30, so that everyone would arrive on time.</p>
-<p><em>T-12 hours:</em> It was time to pack our bags with essentials. Groceries including peanut butter, chocolates, wafers, <em>bhujiya</em>, peanuts, dozens of orea and instant noodles. I also packed <em>satu</em> and <em>bhuteko makai</em>. We then went to a pharmacy to grab some glucose, <em>jiwan jal</em>, <em>bandages</em>, pain relief spray, paracetamol, painkillers, acetazolamide and sunscreen.</p>
-<p>We started packing our bags and it was evident that we had bought too much food so had to leave some of our supplies to make our bags lighter.</p>
-<p>Travel anxiety made sleep hard to come by as I slept only 4 hours.</p>
-<p><em>T-2 hours:</em> I woke up and started banging on everyone’s door urging them to get ready.</p>
-<p><em>T-1 hour:</em>  We were ready, just as we were clicking some pictures of the start of our journey, early morning bird dropping greeted us on the way out of the campus premise, which is considered a good omen. A stroke of coincidence as a superstitious belief came true since we found a bus in the pitch black of morning with an unusual route that took us right to our destination</p>
-<p><em>T-1 hour actually:</em> I had lied about the time of departure to the guys so that they would arrive in time. We were an hour early and had time to break our fast on chickpeas and boiled eggs.</p>
-<p>Reminiscing about the times of the most adventurous bus ride on the return from <em>Sailung</em>, we enjoyed the roads that took us to Nuwakot district then to Rasuwa.  As the bus started to ascend towards the hilltops the road started showing its true colors. We knew we were in for a ride when we saw above us the winding road that overlooked a river. Riding on the edge of the cliff we discussed Yak delicacies that we would enjoy on the trip. The list included milk, ghee, curd, cheese and <em>sukuti</em>.</p>
-<p>We climbed up to 2000m above the sea level at Dhunche, from where people going to Gosaikunda departed the bus and then we descended further on a curving snake like road down to 1450m.</p>
-<h2 id="run-forest">Run Forest</h2>
-<p>We got off at <em>Syabru Besi</em> and stretched ourselves for a moderate walk of 2 hours for the day. An itinerary map of what is to follow was displayed on a hoarding board, which we clicked for future references.</p>
-<p>We couldn’t have asked for a better start to our trek. A beautiful suspension bridge awaited us as a portal to the majestic Langtang Valley. The day was gloomy with clouds all around or was it pollution, it was hard to tell. Nonetheless we followed the trail running uphill alongside the river. Once in a while we would walk into a lush forest with the river roaring in the background and in another instance crossing the river or following it upstream on its banks. We reached <em>Doman</em> in no time, a slap across the face as we were charged Rs.100 for a bottle of mineral water, the place wasn’t even far from a highway.<br>
-<em>Chuna</em></p>
-<p>We entered the eternal forest of the damned.  With hills whose scale could not be contemplated casting shadows on us we moved onwards. Talking to strangers returning from their journey gave us a good idea of the landscape and a rough sketch of itinerary we could complete. It was 5:30pm by the time we reached Bamboo(1970m). A little bit of adversarial game between two hotels landed us a good price on accommodations for the night.</p>
-<h2 id="the-advance">The Advance</h2>
-<p>We charged like a calvary early morning,  <em>satu</em> and biscuits fueled us for the morning. Our goal was to reach <em>Ghodatabela</em> for lunch. Armed with chocolates and <em>jiwan jal</em> we started our journey at 6:30 in the morning. The scenery was the same as yesterday, lush forest, the river roaring louder as the climb got a bit steeper. Large precipices engulfed the thin trail that we followed. Chatting up with strangers sharing the same destination was a fun part of the journey. We encountered Greeks, Slovenian, French, and others mainly European tourists who loved to share their travel experiences. Trekking guides who shared their hectic schedules of Spring and their luxury during the off-season made you want to adopt the profession.</p>
-<p>Fields of Rhododendron started entering the fray as we ascended, some hints of red on overhanging cliffs while white and pink dominated otherwise. Strong steel structure bridges cut across the river in several places. They facilitated travelers as well as Donkey’s carrying supplies to the upper parts of the valley.</p>
-<p>We came across a Yak shed. Newborn Yaks sitting idly and shy made for some good photographs. A cup of fresh curd filled us with the energy to continue onwards.</p>
-<p><em>One item on the list of delicacies ticked</em>.</p>
-<p>It was lunchtime, as planned when we reached <em>Ghodatabela</em>. Dal bhat, Kingly Beans, Cabbage and Mango pickle were served. After about an hour or so of lunchtime and rest we continued our advance, pushing for Kyanjing Valley.</p>
-<p>We had entered a separate terrain. The lush forests had fiddled out into short bushy trees and thin vegetation of rhododendron and sea thorn plants as we continued upstream. The valley was caving in from both sides with monumental hills.</p>
-<p>At about 6:00pm we reached a misty <em>Kyanjin Ghompa</em>. We were running on fumes by the time we got there. Little drizzle on the way had made our clothes wet. Finally the contents of the heavy bag were put to use with a change of clothes. We sat round the heater to warm ourselves whilst enjoying another delicacy from the list, Yak <em>sukuti</em> .Due to religious reasons fresh Yak meat is not available in this trekking route. However, Yaks that are too old and deceased are cut for meat, and dry-aged. For this reason the <em>sukuti</em> was dry and demanded some strength from our facial muscles.</p>
-<p>There were two peaks that we wanted to scale, Kyanjin Ri and Tserko Ri. After discussion we reached a conclusion to decide our peak in the morning based on weather to make sure the views from the top weren&rsquo;t obstructed.</p>
-<h2 id="the-climb">The Climb</h2>
-<p><em>The Circle of Life</em> played and I opened my eyes without much excitement. The 12 hour walk yesterday had robbed me of my strength. Hoping that the day was misty so that I could get away with a moderate climb to ‘Kyanjin Ri’ for the day, I half-heartedly shifted the curtains just enough to have a peek outside.</p>
-<p>My sleepy eyes jerked open at the sight of <em>Langtang Lirung</em>.</p>
-<p><em>Astonishing</em>.</p>
-<p>I literally jumped off my bed and enunciated loudly the beauty of the <em>Langtang Lirung</em> as I rushed outside. I went from 0 to 100 in a fraction of a second.</p>
-<p><em>He’s gone mad.</em> Punpun exclaimed in a sleepy voice from his bed. He was not wrong. I had gone berserk, waking everyone up and disturbing every living creature that could hear.</p>
-<p>I dragged him off his bed to the hotel porch.</p>
-<p><em>Who’s the madman now?</em></p>
-<p>He staggered back and went through the phases that I had just been through. Slowly everyone was up and howling at the scenery.</p>
-<p>We had Tibetian bread and curry for breakfast and on for the climb to ‘Tserko Ri’.</p>
-<p>None of us asked for directions, nor knew which one among all those enormous peaks was ‘Tserko Ri’. But we just bodged through the trails, believing it would lead to our destination. After an hour or so of walking we came across a board that confirmed our hunch.</p>
-<p>My <em>running playlist</em>, Cloves and <em>Timur</em> acted as doping agents as we mounted one hilltop after another. We would stop here and there to appreciate the panorama of mountains and get a boost of energy through <em>jiwanjal</em> and <em>glucose</em>. Chocolates were also of great help to the empty stomach on the way up.</p>
-<p>As the Oxygen level goes down, your brain finds it is much easier to sit than walk up the steep hills and play tricks to make you stop every time you see a spot. I decided not to sit before I reached the top, just stand still to catch my breath once in a while.</p>
-<p>The climb had begun with a steep climb to a hillock. We continued on to another hillock and then another.</p>
-<p><em>Deja vu</em>.</p>
-<p>Amidst the climb of hillock we spotted Danphe and the Alpine Clough flying effortlessly. Extended wings gliding in them around the windy mountains. Sometimes they would just stay still in the air with wings wide apart. Magical.</p>
-<p>Some patches of cloud began to appear at a distance, rising from the valley, chasing us. Thus began the race to the top, shady clouds vs us. We had a good headstart but the race by no means was fair, the clouds soared while we clambered on all fours with slippery gravel giving way under our feet. We were lucky that the clouds didn&rsquo;t know where to stop and we reached a clear top with the clouds having raced somewhere else.</p>
-<p><em>“The best view comes after the hardest climb.”</em></p>
-<p>Crystal clear glaciers just shy of the highest bare hills, glorious mountains with their heads held high, almost 360 degree in view, almost, because a thin slice of the view was that of the river basin extending to the Langtang valley and beyond.</p>
-<p>I roamed around at the windy top, shouted my love towards  the mountains and they echoed back. The summit was not sparse in personnel count as many enthusiasts had made their way to the top. I tried to make smalltalk with a man who was engrossed in the majesty of the shiny peaks.</p>
-<p><em>‘No English seul Francias.’</em> I recognized that he didn’t understand English.</p>
-<p><em>‘C&rsquo;est magnifique.’</em> I cleared out my <em>petit</em> French vocabulary.</p>
-<p><em>&ldquo;C&rsquo;est magnifique.&rdquo;,</em> he nodded in agreement with a broad smile across his face.</p>
-<p>Snack and nap time. Oreos, some chocolates, electrolytes, glucose and <em>moong ko dal</em> were even more satisfying when followed by a nap. The playlist changed to <em>&lsquo;slow and feel good&rsquo;</em>. I took a relaxing nap at 5000m above sea level.</p>
-<p>It was time to descend. Re-energized, we decided to follow an alternative path that was “easier” to descend. A few paces ahead and we were lost as the trail dwindled down and all we could see were the trails left by wild goats. After an hour of descent we realized we neither had descended as much as we should have nor were moving in the right direction. Hunger, thirst and tiredness factored in and everyone grew irritable and started taking a direct route downhill, steepish and ungroomed. Fueled by frustration we started jumping off rocks  and sliding down the dry straw. We reached the valley in no time.</p>
-<p>During dinner, we crossed off another item from our list of delicacies. The ghee was potent. A small scoop was enough to give delightful aroma in my hands.</p>
-<p>The climb had taken a toll on everyone and no one had energy nor zeal left to summit the two peaks that we had initially planned. Even though the <em>Kyanjin Ri I and II</em> were not as demanding as <em>Tserko Ri</em>, <em>moral licensing</em> had come into effect and everyone wished to sleep rather than summit.</p>
-<h2 id="the-obsession">The Obsession</h2>
-<p>At the end of our discussion it was only me who was adamant at climbing <em>Kyanjin Ri</em>. But my good friends were even more stubborn at not letting me go solo, so an obsessive trio was ready to depart in the morning for <em>Kyanjin Ri.</em></p>
-<p><em>Kyanjin Ri</em> was moderately easy compared to the behemoth <em>Tserko Ri</em>, even though the way to the top wasn’t any less steeper. Oh and I almost forgot to mention that it had been 12 all along to the top of <em>Tserko Ri</em>, a beautiful Himalayan Sheepdog had followed us all the way and was now backready to follow us through our journey to <em>Kyanjin Ri</em>.</p>
-<p><em>“These stupid hoomans are surprisingly slow and must wait or they might get lost.”</em> - doggo</p>
-<p>The top of <em>Kyanjin Ri I</em>, was just as beautiful with the full glory of Langtang Lirung on display and a gorge leading to a small lake whose water was led to a micro hydropower plant.</p>
-<p>No time to waste as we pushed up the hill for <em>Kyanjin Ri II</em>. A mere 200m increase in elevation, puf.. easy peasy, but mother nature has her with overconfident crooks. The most frightening of all the trails arrived with a thin trail and on either side the stairway to heaven. <em>Not for the faint of heart.</em></p>
-<p>The elevation of the slope might just as well have been above 80 degrees.</p>
-<p>The top of <em>Kyanjin II</em> was worth it though. The rusty glacier as seen from <em>Tserko Ri</em> now looked pristine. You could see the vivid patterns of sharp clear icicles on the other side of the gorge and it felt like you could almost reach out and touch it.</p>
-<p><em>I reached out and it touched my soul.</em></p>
-<p>With a peaceful stay at the top, the journey was almost over, there were no more peaks to summit. We had left no peaks unsummited(at least the planned ones). A deep feeling of satisfaction ran through my veins as I crossed off the peaks from my list.</p>
-<p>A thunderous roar echoed across the mountains though the skies were dressed in blue. We turned our heads around puzzled. A snow-white cloud was falling from one of the slopes of Langtang Lirung. <em>An Avalanche</em>. Mother nature flexing again, we stood there and watched as the thick mop of white cloud shrinked into a thin flowing silver and the cloud flowed along down to the lake.</p>
-<h2 id="the-night-walkers">The Night Walkers</h2>
-<p>The boys were just waking up when we reached the hotel. A light breakfast and we left with the intention to reach <em>Lama Hotel</em>.</p>
-<p><em>“Descend is not for one with weak knees”</em> - Mahatma Gandhi</p>
-<p>Some of us raced, some lingered while others dragged themselves downhill with multiple sticks supporting their weak knees. A 75kg man fully leaning on a hollow steel stick decided the fate of a beloved comrade.</p>
-<p><em>RIP Trekking stick</em>.</p>
-<p>The sun peeked from the hills, rose high then started sinking and disappeared all the while we were walking downhill. The day soon lost its light but still ‘Lama Hotel’ was nowhere in sight. Wild bears and other unknowns in the jungle started nagging us with fear. We shouted and howled trying to scare off anything lurking in the dark. We started singing our lungs out like we wouldn’t see tomorrow. The atmosphere would switch from sad to aggressive and back to sad through every switch of the song. With lights flashing through our dim phone torches we started rocking the wild to our tune. The rain added more noise to our concert.</p>
-<p>With our throats sore from the jungle concert we arrived at Lama Hotel expecting some warm shelter and food. What awaited us was disappointment. The large number of travelers had overwhelmed every hotel in the area and now we were to push to <em>Rimche</em> through the dark of night. Another concert ensued on sore throats late night through the middle of the jungle.</p>
-<p>Tired to our bones, a descent from 4500m to 2450m had our knees shaking. We had supper and rested for a while calling our families informing them that we would be home tomorrow.</p>
-<p>We laid down watching the stars dance in the night sky. You could join these infinite dots to draw any contour you could imagine. The glowing faces of your loved ones, stick men figures fighting in slow motion, your favorite ‘Atari’ game, the possibilities are endless. The Lyrid meteor shower drew bright streaks across the sky as <em>Nandemonaiya</em> played on my phone.</p>
-<p><em>Enlightening.</em></p>
-<h2 id="epilogue">Epilogue</h2>
-<p>Part of the journey is the end. We woke up early in the morning thinking of home and the stories we would tell upon our return. We were to catch the bus at 9 from Doman. The silhouette of mountains receded as we walked under the canopy of hills covered in Rhododendron. We flowed down with the Langtang river exploring any corner we might have missed on our ascend. Our conquest came to an end as we prepared ourselves for a ride back home.</p>
-<p>At Syabrubesi we had breakfast and looked for souvenirs Yak cheese, ghee and <em>churpi</em> among our prime targets. Alas, Syabru was out of stock and we had to plan a stop at Dhunche for supplies. We returned in a jam-packed bus swaying back and forth with the winding roads that led us back to the Kathmandu valley.</p>
-]]></content></item><item><title>A trip to snowland</title><link>https://sandesh-pokhrel.com.np/posts/2022/02/a-trip-to-snowland/</link><pubDate>Mon, 14 Feb 2022 00:00:00 +0000</pubDate><guid>https://sandesh-pokhrel.com.np/posts/2022/02/a-trip-to-snowland/</guid><description>A trip to snowland Two bikes, four people and a perfect trip, we sketched down our plan. But as &amp;lsquo;AL Green&amp;rsquo; said, “How can you stop the rain from falling down&amp;hellip;?” It rained cats and dogs on our plan. It turned out to be a blessing in disguise as the company grew to six, hills grew thicker with snow and the weather next day was clearer.
-The Facebook group was assembled at 6:00 pm a day before the trip, the official start of a trip these days.</description><content type="html"><![CDATA[<h2 id="a-trip-to-snowland">A trip to snowland</h2>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Posts on Sandesh Pokhrel</title>
+        <link>https://sandeshpokhrel54.github.io/sandesh-pokhrel.github.io/posts/</link>
+        <description>Recent content in Posts on Sandesh Pokhrel</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <copyright>&lt;a href=&#34;https://creativecommons.org/licenses/by-nc/4.0/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;CC BY-NC 4.0&lt;/a&gt;</copyright>
+        <lastBuildDate>Mon, 14 Feb 2022 00:00:00 +0000</lastBuildDate>
+        <atom:link href="https://sandeshpokhrel54.github.io/sandesh-pokhrel.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        <item>
+            <title>A trip to snowland</title>
+            <link>https://sandeshpokhrel54.github.io/sandesh-pokhrel.github.io/posts/2022/02/a-trip-to-snowland/</link>
+            <pubDate>Mon, 14 Feb 2022 00:00:00 +0000</pubDate>
+            
+            <guid>https://sandeshpokhrel54.github.io/sandesh-pokhrel.github.io/posts/2022/02/a-trip-to-snowland/</guid>
+            <description>A trip to snowland Two bikes, four people and a perfect trip, we sketched down our plan. But as &amp;lsquo;AL Green&amp;rsquo; said, “How can you stop the rain from falling down&amp;hellip;?” It rained cats and dogs on our plan. It turned out to be a blessing in disguise as the company grew to six, hills grew thicker with snow and the weather next day was clearer.
+The Facebook group was assembled at 6:00 pm a day before the trip, the official start of a trip these days.</description>
+            <content type="html"><![CDATA[<h2 id="a-trip-to-snowland">A trip to snowland</h2>
 <p>Two bikes, four people and a perfect trip, we sketched down our plan. But as &lsquo;AL Green&rsquo; said, <em>“How can you stop the rain from falling down&hellip;?”</em> It rained cats and dogs on our plan. It turned out to be a blessing in disguise as the company grew to six, hills grew thicker with snow and the weather next day was clearer.</p>
 <p>The Facebook group was assembled at 6:00 pm a day before the trip, the official start of a trip these days. We planned our escape at 8:00pm from <em>Hari Chowk</em>. As it usually happens we started the ride at 8:00<em>NST</em> (Nepali Standard Time) thanks to the trash-can Siddhartha Bank calls an ATM, which debited my account and refused to spit out the cash. Who knew that the bank would conspire for my mom to win an argument yet again? Yeah.. she’d mentioned taking cash from home instead of going to the ATM but I trusted technology more than my mother and faced the consequences. Not a great start to the trip but thankfully it wasn’t the sign of things to come.</p>
 <p>Kishor Dai and I in <em>FZ</em>, Gaurav Dai and Manish Dai in <em>Xpulse</em>, and Manish Dai and Pramish Vai in <em>Gixxer</em>. A final look at google maps to note-down the number of some of the hotels at Ghorepani. Down jackets, faces covered with masks, woolen hats and goggles off we went… Silky smooth road in Hemja with mountains running abreast us. I was busy filming every moment as we rode past the spotless road and into a typical Nepali highway. As we rode towards Lumle, the weather got more chillier but we were well suited for the cold.</p>
@@ -269,7 +25,7 @@ The Facebook group was assembled at 6:00 pm a day before the trip, the official 
 <p>We turned right from <em>MaalDhunga</em> towards <em>Beni bazaar</em> and it was like we switched to the dark side of the moon. Puddles, right in the middle of the road and the occurrences were multiple. Heavy reconstruction of the &ldquo;highway&rdquo; was going on which led to diversions. Slimy mud mixture, large broken rocks and water canals ruining the already disintegrated highway. A major blockade was a truck loaded with gas cylinders stuck on the muddy road. Even a dozer was unable to pry the truck out. Luckily we had great riders. They expertly navigated from beside the truck and we were off again after a slight delay.</p>
 <p>We stopped to regroup on <em>Beni bazaar</em>, miniature under a hanging cliff . Cannot say that none of us were tempted to go rogue and change course when we found out that it was the same road that led to Mustang. The state of the highway though, uff… no wonder Myagdi district is on the list of <em>bikat</em> districts.</p>
 <p><em>Next stop Pokhare-bagar.</em></p>
-<p>At <em>Pokhare-bagar</em> we stopped for snacks and a short break from the long tiring ride. A casual chat to the locals revealed that we were late on schedule and it might get pitch dark by the time we reached Ghorepani. They also mentioned that the snow in some parts is hip-deep. So we rang Hotel Snowland and booked a package for six.
+<p>At <em>Pokhare-bagar</em> we stopped for snacks and a short break from the long tiring ride. A casual chat to the locals revealed that we were late on schedule and it might get pitch dark by the time we reached Ghorepani. They also mentioned that the snow in some parts is hip-deep. So we rang Hotel Snowland and booked a package for six. 
 The road got worse as we ascended. The sun sank and it started to grow dark. The road was still muddy and fractured but it was the snow that created all the problems. Snow on the sides and ice on the road made it impossible to create traction. Our riders got to experience riding a snowmobile at 8pm on a winter night on a road like no other. There were moments when it wasn’t the bike carrying us but the opposite. Skidding and sliding we made our way to the end of the road.</p>
 <p>We were still an hour away from the hotel. We moved through the middle of the forest without any idea of where the small slit of foot trails in the snow led. We had to wander around for sometime before we found the right trail on the thick snow. Finally after a long walk, we reached Hotel Snowland. It was about 10pm when we reached the hotel. Soaked in snow we gathered around the hearth to heat ourselves and our clothes for the journey tomorrow.</p>
 <p>It was 5:30am when I woke up to <em>Sia&rsquo;s Greatest</em>. No sign of life in the room as our tired souls were in a state of deep sleep. Full of energy and determined not to miss the sunrise I climbed out of my bed and was ready in a minute. I started waking everyone up but some of us were too tired to walk in the snow again. So it was just half of the company that left at 6:15am to Poonhill. The estimated time for sunrise was 7:00am. With the clock ticking we set off in the snow.</p>
@@ -284,32 +40,52 @@ The road got worse as we ascended. The sun sank and it started to grow dark. The
 <p><em>NST - Nepali Standard Time, usually an hour or two late from the promised time.</em><br>
 <em>Bikat - underdeveloped</em><br>
 <em>FZ, Xpulse, Gixxer - bikes</em></p>
-]]></content></item><item><title>Buildup to the Finale</title><link>https://sandesh-pokhrel.com.np/posts/2021/05/buildup-to-the-finale/</link><pubDate>Sat, 29 May 2021 00:00:00 +0000</pubDate><guid>https://sandesh-pokhrel.com.np/posts/2021/05/buildup-to-the-finale/</guid><description>UEFA Champions League Final 2021 It’s here, and we have been here before, but its different. There’s fear for the repeat of 2008 but there’s hope for the 2012 miracle. It’s 2021 and we come to &amp;lsquo;Estadio de Dragao&amp;rsquo; as underdogs. Dread the fight but just enough to not let your arrogance get to you, believe that you can and will triumph on your quest, and live, live the moment like you’ll never live it again because you might just never live it again.</description><content type="html"><![CDATA[<h2 id="uefa-champions-league-final-2021">UEFA Champions League Final 2021</h2>
-<p>It’s here, and we have been here before, but its different. There’s fear for the repeat of 2008 but there’s hope for the 2012 miracle. It’s 2021 and we come to &lsquo;Estadio de Dragao&rsquo; as underdogs. Dread the fight but just enough to not let your arrogance get to you, believe that you can and will triumph on your quest, and live, live the moment like you’ll never live it again because you might just never live it again.</p>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Buildup to the Finale</title>
+            <link>https://sandeshpokhrel54.github.io/sandesh-pokhrel.github.io/posts/2021/05/buildup-to-the-finale/</link>
+            <pubDate>Sat, 29 May 2021 00:00:00 +0000</pubDate>
+            
+            <guid>https://sandeshpokhrel54.github.io/sandesh-pokhrel.github.io/posts/2021/05/buildup-to-the-finale/</guid>
+            <description>UEFA Champions League Final 2021 It’s here, and we have been here before, but its different. There’s fear for the repeat of 2008 but there’s hope for the 2012 miracle. It’s 2021 and we come to Estadio do Dragao as underdogs. Dread the fight but just enough to not let your arrogance get to you, believe that you can and will triumph on your quest, and live, live the moment like you’ll never live it again because you might never live it again.</description>
+            <content type="html"><![CDATA[<h2 id="uefa-champions-league-final-2021">UEFA Champions League Final 2021</h2>
+<p>It’s here, and we have been here before, but its different. There’s fear for the repeat of 2008 but there’s hope for the 2012 miracle. It’s 2021 and we come to Estadio do Dragao as underdogs. Dread the fight but just enough to not let your arrogance get to you, believe that you can and will triumph on your quest, and live, live the moment like you’ll never live it again because you might never live it again.</p>
 <h3 id="t--18-hours">T- 18 hours</h3>
 <p>It’s the 90th minute of the match and Chelsea are a goal down. Everyone&rsquo;s eyes are on the clock. The rythmic heart-beats getting more intense. Panting, they jostle for every loose ball. Hands in face, praying, begging to anyone who is listening, shouting at the screen like you are there on the pitch.</p>
 <p>A golden opportunity for Chelsea comes by…. and ….GOALLL….. its 1-1. But wait…. obscurity, the picture&rsquo;s getting blurr, and it seems like its Crystal Palace who’ve scored and its against Barcelona…. Did your excitement just switch teams. What’s going on&hellip; the game began as a match between Manchester City and Chelsea the Champions League Final&hellip; , what’s the scoreline in Chelsea’s game…., oh shoot did I fall asleep during the game. You start gaining consciousness and things slowly start to sink in.</p>
-<p>Its Match-Day. You want to take a sigh of relief and reflect on that weird dream. They have been getting weirder each passing day as the final edges closer. Nervousness is an understatement for what football fans feel before a game starting as underdogs, specially when its ‘the’ Final. Your mind is fixated on that one prize. You cannot concentrate on any task. Everything and anything reminds you of the game to come in about 18-hours. Flashbacks and discussions are all you want to do all day until kickoff.  You’ve even started becoming superstitious start to feel as if whatever you do or do not do might have an effect on the game to come. You are weak on your knees, a spectator from far away, imagine what the player’s are going through.</p>
+<p>Its Match-Day. You want to take a sigh of relief and reflect on that weird dream. They have been getting weirder each passing day as the final edges closer. Nervousness is an understatement for what football fans feel before a game starting as underdogs, specially when its ‘the’ Final. Your mind is fixated on that one prize. You cannot concentrate on any task. Everything and anything reminds you of the game to come in about 18-hours. Flashbacks and discussions are all you want to do all day until kickoff.  You’ve even started becoming superstitious or whatever it is that anything you do or do not do might have an effect on the game to come. You are weak on your knees, a spectator from far away, image what the player’s are going through.</p>
 <h3 id="t-12-hours">T-12 hours</h3>
-<p>The players are taking a walk around the city and you are following the action in Porto from your living room every minute as fans gather around the ‘Estadio de Dragao’. Tactics talks and line-up predictions begin but we are all too superstitious to predict the final score, having seen that when we make predictions before a game it ends up in defeat. Pep, the genius, what has he got planned to decimate us or what Tuchel has up his sleeve this time to make three in a row against the genius. Talks go on about Pep having won all the finals he’s played since 2011, and has lost only one in 12 finals. On the other side he’s never beaten Chelsea in the Champions league playing 3 games 2 draws and a loss. History suggesting no first time finalist has won the CL, and so on as facts begin to come to light with the main event edging closer.</p>
+<p>The players are taking a walk around the city and you are following the action in Porto from your living room every minute as fans gather around the ‘Estadio de Dragao’. Tactics talks and line-up predictions begin but we are all too superstitious to predict the final score, having seen that when we make predictions before a game it ends up in defeat. Pep, the genius, what has he got planned to decimate us or what Tuchel has up his sleeve this time to make three in a row against the genius. Talks go on about Pep having won all the finals he’s played since 2011, and has lost only one in 12 finals. On the other side he’s never beaten Chelsea in the Champions league playing 3 games 2 draws and a loss. History suggesting no first time finalist has won the CL, and so on other facts begin to come to light as the main event edges closer.</p>
 <h3 id="t-1-and-a-half-hour">T-1 and a half hour</h3>
-<p>The lineups drop, half an hour earlier than in any other game. Chelsea’s lineup as expected Mendy in goal, Azpilicueta©, Silva, Rudiger, James, Kante, Jorginho, Chilwell, Mount, Werner, Havertz. A strong team on paper, players in good form and possibly the best team we could have hoped for. Then comes City’s lineup : Ederson, Walker, Stones, Dias, Zinchenko, Gundogan, Foden, B.Silva, Sterling, De-bruyne, Mahrez. You look at their lineup again and realize there’s no DM(Defensive Midfielder). Everyone goes crazy half of them saying Pep’s made a blunder starting the final without a DM and and the other half saying more attacking players, we’re going to get decimated. And discussions begin yet again. Who might score? Who is going to rise to the occasion? Who’s going to fight for that inch? Who’s gonna have the guts to take the last penalty if it goes to penalties?</p>
+<p>The lineups drop, half an hour earlier than in any other game. Chelsea’s lineup as expected Mendy in goal, Azpilicueta©, Silva, Rudiger, James, Kante, Jorginho, Chilwell, Mount, Werner, Havertz. A strong team on paper, players in good form and possibly the best team we could have hoped for. Then comes City’s lineup : Ederson, Walker, Stones, Dias, Zinchenko, Gundogan, Foden, B.Silva, Sterling, De-bruyne, Mahrez. You look at their lineup again and realize there’s no DM. Everyone goes crazy half of them saying Pep’s made a blunder starting the final without a DM and and the other half saying more attacking players, we’re going to get decimated. And discussions begin yet again. Who might score? Who is going to rise to the occasion? Who’s going to fight for that inch? Who’s gonna have the cojones to take the last penalty if it goes to penalties?</p>
 <h3 id="kickoff">Kickoff</h3>
 <p>A tight tense game kicked off and fans were biting their nails from the very beginning. Manchester City as always cool composed on the ball as Chelsea formed a defensive block which had been nearly impenetrable since Tuchel arrived. Touch tight passing, fans cheering and players giving it their all made for a great cup final. Chelsea dangerous on the break, City patient and probing…
-Clock ticks to the 42nd minute of the game with the ball at the Mendy’s feet. A long ball to the left is flicked first time by Ben Chilwell to the rushing Mason Mount. Mount turns. Timo Werner draggs the center back away from the center creating a passing lane for Mount to play Havertz in on goal.
+Clock ticks to the 42nd minute of the game with the ball at the Mendy’s feet. A long ball to the left is flicked first time by Ben Chilwell to the rushing Mason Mount. Mount turns. Timo Werner dragging the center back away from the center creates a passing lane for Mount to play Havertz in on goal.
 Ederson rushes.. Kai gets there first.. ball bounces off the keeper and Kai has an empty net infront of him. GOALLL…… The most expensive player in Chelsea Football Club’s history repays the 90 million quid with a kick of the ball. The half-time score</p>
 <pre><code>    Chelsea 1-0 Manchester City.  
 </code></pre>
-<p>The players come in for the second half. Another half of stand your ground and fight for Chelsea as for City a show of their character. The Champions of England need to push further to get the European Crown. The game progressed and the belief among the Chelsea fans and players seemed to be ever more rising. Crunching tackles, fearsome, resolute and dogged Chelsea were impenetrable to the free flowing and slick football of Manchester City.</p>
-<p>94th minute on the clock and still Chelsea hold the slender lead. It falls to the feet of Riyad Mahrez, just outside the box from a throw-in… and MAHREZZ…. Flashbacks run through the minds of Chelsea fans, that John Terry miss, the moment Chelsea fans covered their eyes in horror to an Andreas Iniesta equalizer in injury time, all rushing through our minds as the ball slowly floated towards the net.<br>
-Agonizingly close but the ball doesn’t strike the back of the net this time.</p>
+<p>The players come in for the second half. Another half of stand your ground and fight for Chelsea as for City a show of their character. The Champions of England need to push further to get the European Crown. The game progressed and the belief among the Chelsea fans and players seemed to be ever more rising. Crunching tackles, fearsome, resolute and dogged Chelsea were impenetrable to the free flowing, slick football of Manchester City.</p>
+<p>94th minute on the clock and still Chelsea hold the slender lead. It falls to the feet of Riyad Mahrez, just outside the box from a throw-in… and MAHREZZ…. Flashbacks run through the minds of Chelsea fans, the John Terry miss and the moment Chelsea fans covered their eyes in horror to an Andreas Iniesta equalizer in injury time.<br>
+Agonizingly Close but the ball doesn’t strike the back of the net…this time.</p>
 <h3 id="full-time">Full-Time</h3>
 <p><strong>THEY HAVE DONE IT AGAIN. EUROPEAN CHAMPIONS AFTER 9 YEARS.
 ECSTASY  FOR CHELSEA AT THE EXPENSE OF MANCHESTER CITY’S HEARTBREAK.</strong></p>
 <p>The European Dream not to be for Pep Guardiola. Thomas Tuchel, finally gets his hands on the trophy which he missed by a whisker last season. The Chelsea fans rejoice singing,
 <em>“We’ve got Super Tommy Tuchel and he knows exactly what we need! Thiago in the back Timo in attack, Chelsea gonna win the Champions League.”</em>  and I join in the chant from my living room.</p>
-]]></content></item><item><title>Groundhog Day</title><link>https://sandesh-pokhrel.com.np/posts/2020/05/groundhog-day/</link><pubDate>Thu, 28 May 2020 00:00:00 +0000</pubDate><guid>https://sandesh-pokhrel.com.np/posts/2020/05/groundhog-day/</guid><description>Life during the lockdown Yet another day has come to an end, and like the past two months, I am scratching my head thinking what things I did today were &amp;ldquo;productive&amp;rdquo;. I lay there in my bed recalling the early morning row with my mom because I overslept yet again.
-Mom vs me (1-0), if we are keeping scores. It really pissed me off for the first few weeks or so, but I guess, I got used to her rants.</description><content type="html"><![CDATA[<h2 id="life-during-the-lockdown">Life during the lockdown</h2>
+]]></content>
+        </item>
+        
+        <item>
+            <title>Groundhog Day</title>
+            <link>https://sandeshpokhrel54.github.io/sandesh-pokhrel.github.io/posts/2020/05/groundhog-day/</link>
+            <pubDate>Thu, 28 May 2020 00:00:00 +0000</pubDate>
+            
+            <guid>https://sandeshpokhrel54.github.io/sandesh-pokhrel.github.io/posts/2020/05/groundhog-day/</guid>
+            <description>Life during the lockdown Yet another day has come to an end, and like the past two months, I am scratching my head thinking what things I did today were &amp;ldquo;productive&amp;rdquo;. I lay there in my bed recalling the early morning row with my mom because I overslept yet again.
+Mom vs me (1-0), if we are keeping scores.  It really pissed me off for the first few weeks or so, but I guess, I got used to her rants.</description>
+            <content type="html"><![CDATA[<h2 id="life-during-the-lockdown">Life during the lockdown</h2>
 <p>Yet another day has come to an end, and like the past two months, I am scratching my head thinking what things I did today were &ldquo;productive&rdquo;.
 I lay there in my bed recalling the early morning row with my mom because I overslept yet again.</p>
 <pre><code>Mom vs me (1-0), if we are keeping scores. 
@@ -395,4 +171,8 @@ Kazin Niko starts firing and taking people’s limbs off with a Bazooka. When I�
 <em>Anton Ego</em> – The food critic in movie Ratatouille<br>
 <em>Tori ko tel</em> – mustard oil<br>
 <em>R.K.O’ed</em> – wrestling reference</p>
-]]></content></item></channel></rss>
+]]></content>
+        </item>
+        
+    </channel>
+</rss>

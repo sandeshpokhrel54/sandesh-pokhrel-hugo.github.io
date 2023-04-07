@@ -96,7 +96,7 @@ Descending on the slippery ice which had started to melt under the sun, it took 
 
 To take my mind off my pounding head and panting lungs while we walked back to *Shreekharka* my *chad* friend discussed all the golden and unspoken rules of dating. I didn’t keep track of a lot of things but by the time we reached our destination we were up to chapter six of the presumed book we were discussing. Thanks to these small talks and heavy lifting of *Vhagar* by my *homies* we were all in one piece come evening. 
 
-With how difficult the day had been, my mind started to wonder if I could make it to *Thorong La* at all, with what right would I wear the headband I had bought that said *Thorong La (5014m)*. A good meal and sound sleep was all I needed. One pill would now decide my fate for the next day, *flexon.*
+With how difficult the day had been, my mind started to wonder if I could make it to *Thorong La* at all, with what right would I wear the headband I had bought that said *Thorong La (5410m)*. A good meal and sound sleep was all I needed. One pill would now decide my fate for the next day, *flexon.*
 
 ## Resurgence
 

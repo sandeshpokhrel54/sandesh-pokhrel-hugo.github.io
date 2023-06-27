@@ -8,7 +8,7 @@ showSummary: True
 It's nice to see you.
 {{< /lead >}}
 
-Computer Engineer in the making, so there's lots going alongside. Check out [blogs]({{< ref "blogs" >}}) for slices of my life or hit me up on any of the socials above.
+Check out [blogs]({{< ref "blogs" >}}) for slices of my life or hit me up on any of the socials above.
 
 <!-- 
 <div class="flex px-4 py-2 mb-8 text-base rounded-md bg-primary-100 dark:bg-primary-900">

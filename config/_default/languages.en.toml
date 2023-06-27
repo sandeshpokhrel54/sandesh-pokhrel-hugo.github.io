@@ -16,14 +16,14 @@ dateFormat = "2 January 2006"
 
 [author]
   name = "Sandesh Pokhrel"
-  image = "img/mee.jpg"
+  image = "img/m.jpg"
   headline = "Off to never-never land"
   bio = "Maybe someday"
   links = [
     { twitter = "https://twitter.com/dovahkiin_08" },
     { linkedin = "https://www.linkedin.com/in/sandesh-p-93955b1b9/" },
     { github = "https://github.com/sandeshpokhrel54/" },
-    {youtube = "https://www.youtube.com/@thinairaesthetics"},
+    { youtube = "https://www.youtube.com/@thinairaesthetics" },
   ]
 
   

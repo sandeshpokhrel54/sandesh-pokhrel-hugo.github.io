@@ -12,13 +12,13 @@ copyright = "&copy; 2023 Congo contributors"
 dateFormat = "2 January 2006"
 
 [params]
-  mainSections = ["blogs"]
+  mainSections = ["blogs","publications"]
 
 [author]
   name = "Sandesh Pokhrel"
   image = "img/m.jpg"
-  headline = "Off to never-never land"
-  bio = "Maybe someday"
+  headline = "Welcome to my humble abode!"
+  bio = ""
   links = [
     { twitter = "https://twitter.com/dovahkiin_08" },
     { linkedin = "https://www.linkedin.com/in/sandesh-p-93955b1b9/" },
@@ -26,4 +26,4 @@ dateFormat = "2 January 2006"
     { youtube = "https://www.youtube.com/@thinairaesthetics" },
   ]
 
-  
+   

@@ -1,11 +1,11 @@
 ---
-title: "Welcome bro"
-description: "Everyone needs a portfolio website."
+title: "Welcome"
+description: ""
 showSummary: True
 ---
 
 {{< lead >}}
-It's nice to see you.
+
 {{< /lead >}}
 
 Check out [blogs]({{< ref "blogs" >}}) for slices of my life or hit me up on any of the socials above.

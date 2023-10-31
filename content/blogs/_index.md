@@ -1,5 +1,5 @@
 ---
-title: "Read up"
+title: "Curious, are we?"
 description: "Potpourri of Blogs"
 ---
 

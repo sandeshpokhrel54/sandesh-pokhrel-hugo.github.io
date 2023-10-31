@@ -16,9 +16,9 @@
 #   weight = 10
 
 # [[main]]
-#   name = "Samples"
-#   pageRef = "samples"
-#   weight = 20
+#   name = "Publications"
+#   pageRef = "publications"
+#   weight = 30
 
 [[main]]
   name = "Blogs"

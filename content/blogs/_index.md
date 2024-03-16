@@ -1,10 +1,10 @@
 ---
-title: "Curious, are we?"
-description: "Potpourri of Blogs"
+title: "Travel, Tech and more"
+description: ""
 ---
 
 {{< lead >}}
-Potpourri of Blogs
+
 {{< /lead >}}
 
 <!-- 

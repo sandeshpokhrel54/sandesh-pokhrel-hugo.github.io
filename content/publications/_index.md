@@ -1,15 +1,12 @@
 ---
-title: "Welcome"
+title: "Research Works"
 description: ""
-showSummary: True
 ---
 
 {{< lead >}}
 
 {{< /lead >}}
 
-<!-- Check out [blogs]({{< ref "blogs" >}}) for slices of my life or hit me up on any of the socials above. -->
-👋 Hello! I'm Sandesh Pokhrel, a passionate Computer Vision Research Engineer with a keen interest in leveraging data analytics to drive innovation.
 <!-- 
 <div class="flex px-4 py-2 mb-8 text-base rounded-md bg-primary-100 dark:bg-primary-900">
   <span class="flex items-center ltr:pr-3 rtl:pl-3 text-primary-400">

@@ -59,7 +59,7 @@ jobs:
 
       - name: Build
         working-directory: ../
-        run: hugo --minify --themesDir ../themes/congo --baseURL https://sandesh-pokhrel.com.np
+        run: hugo --minify #--themesDir ../themes/congo --baseURL https://sandesh-pokhrel.com.np
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3

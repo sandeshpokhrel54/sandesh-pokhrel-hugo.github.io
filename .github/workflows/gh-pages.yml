@@ -22,7 +22,7 @@ jobs:
           extended: true
 
       - name: Build
-        run: hugo --minify --themesDir ../theme/congo 
+        run: hugo v0.110.0-e32a493b7826d02763c3b79623952e625402b168+extended windows/amd64 --minify
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         if: github.ref == 'refs/heads/main'

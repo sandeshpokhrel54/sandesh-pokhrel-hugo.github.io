@@ -1,7 +1,7 @@
 ---
 author:
   name: "Sandesh Pokhrel"
-date: 2023-08-29
+date: 2023-08-28
 linktitle: Arcade_pseudolabels
 type:
 - post

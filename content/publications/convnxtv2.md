@@ -1,7 +1,7 @@
 ---
 author:
   name: "Sandesh Pokhrel"
-date: 2023-08-27
+date: 2023-08-29
 linktitle: Arcade_convnxtv2
 type:
 - post

@@ -20,8 +20,9 @@ dateFormat = "2 January 2006"
   headline = "Welcome to my humble abode!"
   bio = ""
   links = [
-    { twitter = "https://twitter.com/dovahkiin_08" },
     { linkedin = "https://www.linkedin.com/in/sandesh-p-93955b1b9/" },
+    # {google = "https://scholar.google.com/citations?user=KYmGJe4AAAAJ&hl=en&authuser=1"},
+    { twitter = "https://twitter.com/dovahkiin_08" },
     { github = "https://github.com/sandeshpokhrel54/" },
   ]
 

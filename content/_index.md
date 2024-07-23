@@ -9,7 +9,10 @@ showSummary: True
 {{< /lead >}}
 
 <!-- Check out [blogs]({{< ref "blogs" >}}) for slices of my life or hit me up on any of the socials above. -->
-👋 Hello! I'm Sandesh Pokhrel, a passionate Computer Vision Research Engineer with a keen interest in leveraging data analytics to drive innovation.
+Hi! I'm Sandesh Pokhrel, a passionate computer vision researcher at NAAMII, Nepal under Assistant Professor Binod Bhattarai. I am working at the forefront of medical imaging and advancements in AI and computer vision can improve diagnosis and patient care. My current research focuses on Out-of-Distribution detection in gastrointestinal vision in various modalities. 
+I am a graduate from Institute of Engineering(IOE), Pulchowk Campus with diverse experience in research as well as industry having worked on various deep learning techniques. I have experience in out-of-distribution detection, self supervised learning, image and object segmentation, object detection, pose estimation, voice cloning and speech recognition, using these methods to provide software solutions for pressing and practical problems.
+As personal interests, I enthusiastically follow football, playing as well as analytics and am a avid star gazer on cloudless night.
+Looking forward to connecting with you!
 <!-- 
 <div class="flex px-4 py-2 mb-8 text-base rounded-md bg-primary-100 dark:bg-primary-900">
   <span class="flex items-center ltr:pr-3 rtl:pl-3 text-primary-400">

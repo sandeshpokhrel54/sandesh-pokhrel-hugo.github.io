@@ -1,12 +1,12 @@
 ---
 author:
   name: "Sandesh Pokhrel"
-date: 2023-08-28
-linktitle: Arcade_pseudolabels
+date: 2024-07-23
+linktitle: pseudolabels
 type:
 - post
 - posts
-title: Data Augmentation through Pseudolabels in Automatic Region Based Coronary Artery Segmentation for Disease Diagnosis (2023 arxiv. preprint)
+title: Cross-Task Data Augmentation by Pseudo-label Generation for Region Based Coronary Artery Instance Segmentation (2024 DEMI MICCAI)
 weight: 10
 series:
 - Hugo 101
